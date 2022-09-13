@@ -1,0 +1,309 @@
+{
+	"info": {
+		"_postman_id": "a5227c80-1a53-4f85-af20-1866a49e161e",
+		"name": "Advanced-Golang-Mini-Course-Alterra",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8245982"
+	},
+	"item": [
+		{
+			"name": "Day-1",
+			"item": [
+				{
+					"name": "Book APIs",
+					"item": [
+						{
+							"name": "Get All Books",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{day-1-book-url}}/book",
+									"host": [
+										"{{day-1-book-url}}"
+									],
+									"path": [
+										"book"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Book",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"When everyone knows you\",\n    \"isbn\": \"978-3-16-148410-0\",\n    \"writer\": \"Leinn Fox\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{day-1-book-url}}/book",
+									"host": [
+										"{{day-1-book-url}}"
+									],
+									"path": [
+										"book"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Detail Book",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{day-1-book-url}}/book/1",
+									"host": [
+										"{{day-1-book-url}}"
+									],
+									"path": [
+										"book",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Book",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"When everyone knows you\",\n    \"isbn\": \"978-3-16-148410-0\",\n    \"writer\": \"Leinn Fox\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{day-1-book-url}}/book/1",
+									"host": [
+										"{{day-1-book-url}}"
+									],
+									"path": [
+										"book",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Book",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{day-1-book-url}}/book/1",
+									"host": [
+										"{{day-1-book-url}}"
+									],
+									"path": [
+										"book",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Binance APIs",
+					"item": [
+						{
+							"name": "Get Account Profile Copy",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const ts  = Date.now();",
+											"pm.environment.set(\"timestamp\", ts);",
+											"",
+											"let paramsObject = {};",
+											"",
+											"const binance_api_secret = pm.environment.get(\"api_secret\");",
+											"",
+											"const parameters = pm.request.url.query;",
+											"",
+											"parameters.map((param) => {",
+											"    if (param.key != 'signature' && ",
+											"        param.key != 'timestamp' && ",
+											"        !is_empty(param.value) &&",
+											"        !is_disabled(param.disabled)) {",
+											"            paramsObject[param.key] = param.value;",
+											"            //console.log(encodeURIComponent(param.value));",
+											"            //pm.environment.set(param.key, encodeURIComponent(param.value));",
+											"    }",
+											"})",
+											"        ",
+											"Object.assign(paramsObject, {'timestamp': ts});",
+											"",
+											"if (binance_api_secret) {",
+											"    const queryString = Object.keys(paramsObject).map((key) => {",
+											"        return `${key}=${paramsObject[key]}`;",
+											"    }).join('&');",
+											"    console.log(queryString);",
+											"    const signature = CryptoJS.HmacSHA256(queryString, binance_api_secret).toString();",
+											"    pm.environment.set(\"signature\", signature);",
+											"}",
+											"",
+											"",
+											"function is_disabled(str) {",
+											"    return str == true;",
+											"}",
+											"",
+											"function is_empty(str) {",
+											"    if (typeof str == 'undefined' ||",
+											"        !str || ",
+											"        str.length === 0 || ",
+											"        str === \"\" ||",
+											"        !/[^\\s]/.test(str) ||",
+											"        /^\\s*$/.test(str) ||",
+											"        str.replace(/\\s/g,\"\") === \"\")",
+											"    {",
+											"        return true;",
+											"    }",
+											"    else",
+											"    {",
+											"        return false;",
+											"    }",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-MBX-APIKEY",
+										"value": "{{day-1-binance-apikey}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{day-1-binance-url}}/api/v3/account?signature={{signature}}&timestamp={{timestamp}}",
+									"host": [
+										"{{day-1-binance-url}}"
+									],
+									"path": [
+										"api",
+										"v3",
+										"account"
+									],
+									"query": [
+										{
+											"key": "signature",
+											"value": "{{signature}}"
+										},
+										{
+											"key": "timestamp",
+											"value": "{{timestamp}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get BTCUSDT Price Within the Time",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{day-1-binance-url}}/api/v1/klines?symbol=BTCUSDT&interval=1h&startTime=1662037828000&endTime=1662988228000&limit=100",
+									"host": [
+										"{{day-1-binance-url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"klines"
+									],
+									"query": [
+										{
+											"key": "symbol",
+											"value": "BTCUSDT"
+										},
+										{
+											"key": "interval",
+											"value": "1h"
+										},
+										{
+											"key": "startTime",
+											"value": "1662037828000",
+											"description": "Thu Sep 01 2022"
+										},
+										{
+											"key": "endTime",
+											"value": "1662988228000",
+											"description": "Wed Sep 12 2022"
+										},
+										{
+											"key": "limit",
+											"value": "100"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Recent BTCUSDT Price",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{day-1-binance-url}}/api/v1/klines?symbol=BTCUSDT&interval=1d",
+									"host": [
+										"{{day-1-binance-url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"klines"
+									],
+									"query": [
+										{
+											"key": "symbol",
+											"value": "BTCUSDT"
+										},
+										{
+											"key": "interval",
+											"value": "1d"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
