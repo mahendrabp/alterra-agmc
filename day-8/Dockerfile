@@ -10,6 +10,6 @@ FROM alpine:3.13
 RUN apk --no-cache add ca-certificates
 WORKDIR /usr/bin
 COPY --from=build /go/src/app/bin /go/bin
-COPY --from=build /go/src/app/configs/config/local.yaml /usr/bin/configs/config
+# COPY --from=build /go/src/app/configs/config/local.yaml /usr/bin/configs/config
 EXPOSE 5302
 ENTRYPOINT /go/bin/web-app --port 5302

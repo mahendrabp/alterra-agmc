@@ -1,0 +1,12 @@
+version: '2'
+services:
+  agmc-day-8:
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: .
+
+networks:
+  default:
+    external:
+      name: nginx-proxy
