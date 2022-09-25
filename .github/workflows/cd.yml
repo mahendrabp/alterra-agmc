@@ -21,3 +21,4 @@ jobs:
             cd alterra-agmc/day-8
             ls -a
             whoami
+            sudo git pull origin master
