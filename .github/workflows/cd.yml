@@ -20,3 +20,4 @@ jobs:
           script: |
             cd alterra-agmc/day-8
             ls -a
+            whoami
